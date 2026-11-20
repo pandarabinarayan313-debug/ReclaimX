@@ -16,45 +16,29 @@
     <style>
         /* Ambient Background Movement */
         @keyframes ambientMove {
-            0% {
-                transform: translate(0px, 0px) scale(1);
-            }
-            33% {
-                transform: translate(80px, -50px) scale(1.15);
-            }
-            66% {
-                transform: translate(-60px, 40px) scale(0.95);
-            }
-            100% {
-                transform: translate(0px, 0px) scale(1);
-            }
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(80px, -50px) scale(1.15); }
+            66% { transform: translate(-60px, 40px) scale(0.95); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
 
         /* Continuous Radial Mesh Gradient Animation */
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .animate-ambient-1 {
-            animation: ambientMove 18s ease-in-out infinite;
-        }
+        .animate-ambient-1 { animation: ambientMove 18s ease-in-out infinite; }
+        .animate-ambient-2 { animation: ambientMove 24s ease-in-out infinite reverse; }
 
-        .animate-ambient-2 {
-            animation: ambientMove 24s ease-in-out infinite reverse;
-        }
-
-        /* Prevent Safari default white background leak */
         html, body {
             background-color: #0b1120 !important;
             color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden !important;
         }
 
         .animated-bg {
@@ -63,14 +47,12 @@
             animation: gradientShift 15s ease infinite;
         }
 
-        /* Drag and Drop Hover Highlight */
         .dropzone-active {
             border-color: #6366f1 !important;
             background-color: rgba(99, 102, 241, 0.15) !important;
             box-shadow: 0 0 25px rgba(99, 102, 241, 0.4) !important;
         }
 
-        /* iOS WebKit Backdrop Blur & Stacking Layer Fixes */
         .backdrop-blur-md, .backdrop-blur-sm {
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
@@ -81,11 +63,8 @@
             transform: translateZ(0);
         }
 
-        /* Prevent auto-zoom on iOS Safari by maintaining minimum 16px font on touch devices */
         @media (max-width: 767px) {
-            input, select, textarea {
-                font-size: 16px !important;
-            }
+            input, select, textarea { font-size: 16px !important; }
         }
 
         button, input, select, textarea {
@@ -93,7 +72,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Modal Scroll Lock Helper */
         body.modal-open {
             overflow: hidden !important;
             touch-action: none;
@@ -107,14 +85,12 @@
     <div class="fixed bottom-[-10%] left-[-10%] w-[550px] h-[550px] bg-purple-900/20 rounded-full blur-[130px] pointer-events-none -z-10 animate-ambient-2"></div>
     <div class="fixed top-[40%] left-[30%] w-[450px] h-[450px] bg-slate-700/15 rounded-full blur-[120px] pointer-events-none -z-10 animate-ambient-1" style="animation-duration: 30s;"></div>
 
-    <!-- STICKY MOBILE TOP BAR (VISIBLE ON MOBILE ONLY) -->
+    <!-- STICKY MOBILE TOP BAR -->
     <header class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 z-30 flex items-center justify-between px-4 fix-ios-layer">
-        <!-- Sidebar Toggle Button (Left) -->
         <button id="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar" class="p-2 bg-indigo-600 text-white rounded-xl border border-indigo-400/50 shadow-[0_0_10px_rgba(99,102,241,0.4)] hover:shadow-[0_0_20px_rgba(99,102,241,0.8)] hover:bg-indigo-500 hover:scale-[1.02] transition-all focus:outline-none">
             <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
 
-        <!-- Centered Logo Branding (Center) -->
         <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('dashboard')">
             <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-[0_0_12px_rgba(99,102,241,0.5)] border border-indigo-400/40">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
@@ -125,7 +101,6 @@
             </div>
         </div>
 
-        <!-- Empty Spacer for Alignment -->
         <div class="w-9"></div>
     </header>
 
@@ -135,7 +110,6 @@
     <!-- LEFT SIDEBAR -->
     <aside id="sidebar" class="w-64 bg-[#0f172a]/90 backdrop-blur-md border-r border-slate-800 flex flex-col justify-between p-4 min-h-[100dvh] shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out fix-ios-layer">
         <div class="space-y-6">
-            <!-- App Branding + Mobile Close Button -->
             <div class="flex items-center justify-between px-2">
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
                     <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] border border-indigo-400/40">
@@ -146,10 +120,30 @@
                         <p class="text-[11px] text-slate-400">Cloud Belongings Portal</p>
                     </div>
                 </div>
-                <!-- Close Button Inside Sidebar for Mobile -->
                 <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white p-1 focus:outline-none">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
+            </div>
+
+            <!-- AUTHENTICATION STATUS / USER WIDGET -->
+            <div id="auth-widget" class="bg-[#0b1120] border border-slate-800 rounded-xl p-3 flex items-center justify-between mx-1 gap-1.5">
+                <div id="auth-user-info" class="flex items-center space-x-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-700 shrink-0">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <div class="text-left overflow-hidden">
+                        <p id="user-display-name" class="text-xs font-semibold text-white truncate max-w-[95px]">Guest User</p>
+                        <p id="user-display-role" class="text-[10px] text-slate-500 truncate">Not Logged In</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-1.5 shrink-0">
+                    <button id="change-pw-btn" onclick="openChangePasswordModal()" class="hidden p-1.5 bg-amber-500/15 text-amber-400 hover:bg-amber-500 hover:text-slate-950 rounded-lg border border-amber-500/30 transition-all shadow-[0_0_8px_rgba(245,158,11,0.25)] hover:shadow-[0_0_16px_rgba(245,158,11,0.6)]" title="Change Password">
+                        <i data-lucide="key-round" class="w-4 h-4"></i>
+                    </button>
+                    <button id="auth-action-btn" onclick="openAuthModal('login')" class="p-1.5 bg-indigo-600/20 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg border border-indigo-500/30 transition-all shadow-[0_0_8px_rgba(99,102,241,0.3)] hover:shadow-[0_0_16px_rgba(99,102,241,0.6)]" title="Login">
+                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Navigation Menu -->
@@ -168,6 +162,14 @@
                         <span>Smart Matcher</span>
                     </div>
                     <span id="badge-matcher" class="bg-slate-800 text-amber-300 border border-slate-700 text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
+                </button>
+                <button id="nav-myreports" onclick="switchTab('myreports')" class="hidden w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-indigo-400 border border-transparent hover:bg-indigo-500/10 hover:border-indigo-500/30 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all">
+                    <i data-lucide="folder-user" class="w-4 h-4"></i>
+                    <span>My Reports</span>
+                </button>
+                <button id="nav-admin" onclick="switchTab('admin')" class="hidden w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-amber-400 border border-transparent hover:bg-amber-500/10 hover:border-amber-500/30 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)] transition-all">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                    <span>Admin Management</span>
                 </button>
             </nav>
 
@@ -203,14 +205,11 @@
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto max-w-7xl w-full min-w-0 pt-20 md:pt-8 transition-all duration-300 flex flex-col justify-between bg-[#0b1120]">
+    <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto max-w-7xl w-full min-w-0 pt-20 md:pt-8 transition-all duration-300 flex flex-col justify-between bg-transparent z-10">
 
-        <!-- TAB CONTENT CONTAINER -->
         <div>
             <!-- TAB 1: DASHBOARD VIEW -->
             <section id="tab-dashboard" class="space-y-6">
-                
-                <!-- Hero Header Banner -->
                 <div class="bg-gradient-to-r from-indigo-950/70 via-slate-900/90 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-[0_0_30px_rgba(79,70,229,0.15)]">
                     <div class="inline-flex items-center space-x-2 px-3 py-1 bg-indigo-500/20 border border-indigo-500/40 rounded-full text-[10px] font-bold text-indigo-300 uppercase tracking-wider mb-3">
                         <i data-lucide="refresh-cw" class="w-3 h-3 text-indigo-400"></i>
@@ -234,7 +233,7 @@
 
                 <!-- Dashboard Statistics Matrix -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-[#0f172a] border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
+                    <div class="bg-[#0f172a]/90 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Lost</p>
                             <h3 id="stat-lost" class="text-2xl font-bold text-white mt-2">0</h3>
@@ -243,7 +242,7 @@
                         <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-400"></i>
                     </div>
 
-                    <div class="bg-[#0f172a] border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
+                    <div class="bg-[#0f172a]/90 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Found</p>
                             <h3 id="stat-found" class="text-2xl font-bold text-white mt-2">0</h3>
@@ -252,7 +251,7 @@
                         <i data-lucide="package" class="w-5 h-5 text-emerald-400"></i>
                     </div>
 
-                    <div class="bg-[#0f172a] border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
+                    <div class="bg-[#0f172a]/90 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Matches</p>
                             <h3 id="stat-matches" class="text-2xl font-bold text-amber-300 mt-2">0</h3>
@@ -261,7 +260,7 @@
                         <i data-lucide="sparkles" class="w-5 h-5 text-amber-400"></i>
                     </div>
 
-                    <div class="bg-[#0f172a] border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
+                    <div class="bg-[#0f172a]/90 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-4 flex justify-between items-start">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Claimed</p>
                             <h3 id="stat-resolved" class="text-2xl font-bold text-white mt-2">0</h3>
@@ -272,9 +271,9 @@
                 </div>
 
                 <!-- Smart Cross-Match Highlight Alert Banner -->
-                <div id="match-banner" class="hidden bg-[#0f172a] border border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+                <div id="match-banner" class="hidden bg-[#0f172a]/90 border border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-[0_0_20px_rgba(245,158,11,0.15)]">
                     <div class="flex items-center space-x-3">
-                        <div class="p-2.5 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-500/30">
+                        <div class="p-2.5 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
                             <i data-lucide="sparkles" class="w-5 h-5"></i>
                         </div>
                         <div>
@@ -294,19 +293,18 @@
                         <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
                         <span>Realtime Live Submissions</span>
                     </h3>
-                    <button onclick="switchTab('browse')" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center space-x-1">
+                    <button onclick="switchTab('browse')" class="px-3 py-1 bg-indigo-600/10 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg border border-indigo-500/30 shadow-[0_0_8px_rgba(99,102,241,0.2)] hover:shadow-[0_0_16px_rgba(99,102,241,0.6)] text-xs font-semibold flex items-center space-x-1 transition-all">
                         <span>View All</span>
                         <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </button>
                 </div>
 
-                <!-- Items Feed Grid -->
                 <div id="dashboard-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
 
             <!-- TAB 2: BROWSE FEED VIEW -->
             <section id="tab-browse" class="hidden space-y-6">
-                <div class="bg-[#0f172a] border border-slate-800 p-4 rounded-2xl flex flex-col md:flex-row gap-3 justify-between">
+                <div class="bg-[#0f172a]/90 border border-slate-800 p-4 rounded-2xl flex flex-col md:flex-row gap-3 justify-between">
                     <div class="relative flex-1 flex items-center">
                         <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
                         <input id="search-input" oninput="renderBrowse()" type="text" placeholder="Search title, keywords, location..." class="w-full bg-[#0b1120] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
@@ -323,8 +321,8 @@
 
             <!-- TAB 3: SMART MATCHER VIEW -->
             <section id="tab-matcher" class="hidden space-y-6">
-                <div class="bg-[#0f172a] border border-amber-500/30 p-6 rounded-2xl flex items-center space-x-4">
-                    <div class="p-3 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-500/30">
+                <div class="bg-[#0f172a]/90 border border-amber-500/30 p-6 rounded-2xl flex items-center space-x-4">
+                    <div class="p-3 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
                         <i data-lucide="sparkles" class="w-6 h-6"></i>
                     </div>
                     <div>
@@ -334,15 +332,168 @@
                 </div>
                 <div id="matcher-feed" class="space-y-4"></div>
             </section>
+
+            <!-- TAB 4: MY REPORTS VIEW -->
+            <section id="tab-myreports" class="hidden space-y-6">
+                <div class="bg-[#0f172a]/90 border border-indigo-500/30 p-6 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-indigo-500/20 text-indigo-300 rounded-xl border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+                            <i data-lucide="folder-user" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">My Personal Submissions</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Manage and track your active lost and found reports.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="myreports-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </section>
+
+            <!-- TAB 5: ADMIN MANAGEMENT VIEW -->
+            <section id="tab-admin" class="hidden space-y-6">
+                <div class="bg-[#0f172a]/90 border border-amber-500/30 p-6 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Registered User Directory</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Manage user roles and elevate permissions across the portal.</p>
+                        </div>
+                    </div>
+                    <button onclick="fetchUsers()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 hover:text-white text-xs font-bold rounded-xl border border-slate-700 shadow-[0_0_10px_rgba(99,102,241,0.2)] hover:shadow-[0_0_20px_rgba(99,102,241,0.6)] hover:scale-[1.02] transition-all flex items-center space-x-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+
+                <div class="bg-[#0f172a]/90 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-[#0b1120] text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
+                                <tr>
+                                    <th class="p-4">User ID</th>
+                                    <th class="p-4">Name</th>
+                                    <th class="p-4">Email</th>
+                                    <th class="p-4">Role</th>
+                                    <th class="p-4">Joined Date</th>
+                                    <th class="p-4 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-table-body" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <!-- FOOTER CREDITS -->
         <footer class="mt-12 pt-6 border-t border-slate-800/60 text-center text-xs text-slate-500">
             <p>ReclaimX &copy; 2026 • Cloud Belongings Portal</p>
             <p class="text-[11px] text-slate-600 mt-1">Developed with ❤️ by <span class="text-indigo-400 font-medium">Team InfernoX</span></p>
         </footer>
-
     </main>
+
+    <!-- AUTH LOGIN / REGISTER MODAL WITH OTP -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 fix-ios-layer">
+        <div class="bg-[#0f172a] border border-slate-800 max-w-sm w-full p-6 rounded-2xl shadow-2xl">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <h3 id="auth-modal-title" class="text-base font-bold text-white">Account Login</h3>
+                <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-3 mt-4">
+                <input type="hidden" id="auth-mode" value="login">
+
+                <div id="field-name" class="hidden">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Full Name *</label>
+                    <input type="text" id="auth-name" name="name" autocomplete="name" placeholder="Alex Rivera" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">College Email Address *</label>
+                    <div class="flex gap-2">
+                        <input type="email" id="auth-email" name="email" required autocomplete="username" placeholder="alex@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                        <button type="button" id="btn-send-reg-otp" onclick="requestOtp('register')" class="hidden px-3 py-2 bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600 hover:text-white rounded-xl border border-indigo-500/40 text-xs font-bold whitespace-nowrap shadow-[0_0_8px_rgba(99,102,241,0.3)] hover:shadow-[0_0_16px_rgba(99,102,241,0.6)] transition-all">
+                            Send OTP
+                        </button>
+                    </div>
+                    <p id="email-hint" class="text-[10px] text-slate-500 mt-1 hidden">Must end with <span class="text-indigo-400 font-semibold">@college.edu</span></p>
+                </div>
+
+                <div id="field-otp" class="hidden">
+                    <label class="block text-[10px] font-bold text-emerald-400 uppercase mb-1">6-Digit Verification OTP *</label>
+                    <input type="text" id="auth-otp" name="otp" maxlength="6" autocomplete="one-time-code" placeholder="123456" class="w-full bg-[#0b1120] border border-emerald-500/40 rounded-xl px-3 py-2 text-sm text-white tracking-widest font-mono focus:outline-none focus:border-emerald-400">
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase">Password *</label>
+                        <button type="button" id="btn-forgot-pw" onclick="openForgotModal()" class="text-[10px] text-indigo-400 hover:underline">Forgot Password?</button>
+                    </div>
+                    <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="••••••••" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div id="field-admin-secret" class="hidden">
+                    <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">Admin Passcode (Optional)</label>
+                    <input type="password" id="auth-admin-secret" name="admin_secret" autocomplete="off" placeholder="Enter admin code..." class="w-full bg-[#0b1120] border border-amber-500/40 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                </div>
+
+                <p id="auth-error" class="text-xs text-rose-400 hidden font-semibold"></p>
+
+                <button type="submit" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl border border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.5)] hover:shadow-[0_0_24px_rgba(99,102,241,0.9)] transition-all">
+                    <span id="auth-submit-btn-text">Log In</span>
+                </button>
+            </form>
+
+            <div class="mt-4 text-center text-xs text-slate-400">
+                <span id="auth-toggle-prompt">Don't have an account?</span>
+                <button type="button" onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-indigo-400 font-semibold underline ml-1 hover:text-indigo-300">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORGOT / CHANGE PASSWORD VIA OTP MODAL -->
+    <div id="forgot-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 fix-ios-layer">
+        <div class="bg-[#0f172a] border border-slate-800 max-w-sm w-full p-6 rounded-2xl shadow-2xl space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="key-round" class="w-4 h-4 text-amber-400"></i>
+                    <span id="forgot-modal-title">Reset Password</span>
+                </h3>
+                <button onclick="closeForgotModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form id="forgot-form" onsubmit="handleForgotResetSubmit(event)" autocomplete="off" class="space-y-3">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Campus Email Address *</label>
+                    <div class="flex gap-2">
+                        <input type="email" id="forgot-email" required autocomplete="off" placeholder="alex@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                        <button type="button" onclick="requestOtp('forgot_password')" class="px-3 py-2 bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-slate-950 rounded-xl border border-amber-500/40 text-xs font-bold whitespace-nowrap shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:shadow-[0_0_16px_rgba(245,158,11,0.6)] transition-all">
+                            Send OTP
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">6-Digit Verification OTP *</label>
+                    <input type="text" id="forgot-otp" required maxlength="6" autocomplete="one-time-code" placeholder="123456" class="w-full bg-[#0b1120] border border-amber-500/40 rounded-xl px-3 py-2 text-sm text-white tracking-widest font-mono focus:outline-none focus:border-amber-400">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">New Password *</label>
+                    <input type="password" id="forgot-new-password" required autocomplete="new-password" placeholder="••••••••" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <p id="forgot-error" class="text-xs text-rose-400 hidden font-semibold"></p>
+                <p id="forgot-msg" class="text-xs text-emerald-400 hidden font-semibold"></p>
+
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeForgotModal()" class="px-4 py-2 border border-slate-700 text-slate-300 text-xs font-bold rounded-xl hover:bg-slate-800 transition-all">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold rounded-xl border border-amber-300/60 shadow-[0_0_12px_rgba(245,158,11,0.5)] hover:shadow-[0_0_22px_rgba(245,158,11,0.9)] transition-all">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL FOR REPORTING ITEM -->
     <div id="report-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 fix-ios-layer">
@@ -351,19 +502,18 @@
                 <h3 id="modal-title" class="text-base font-bold text-white">Report Item</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            <form onsubmit="submitReport(event)" class="space-y-3 mt-4">
+            <form id="report-form" onsubmit="submitReport(event)" autocomplete="off" class="space-y-3 mt-4">
                 <input type="hidden" id="form-type" value="lost">
                 
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Title *</label>
-                    <input type="text" id="form-title" required placeholder="e.g. Scientific Calculator Casio FX-991EX" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="form-title" required placeholder="e.g. Scientific Calculator Casio FX-991EX" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <!-- Item -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Item *</label>
-                        <select id="form-item" required onchange="handleOtherToggle('item')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm sm:text-xs text-white focus:outline-none focus:border-indigo-500">
+                        <select id="form-item" required onchange="handleOtherToggle('item')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                             <option value="" disabled selected>--SELECT--</option>
                             <option value="Calculator">Calculator</option>
                             <option value="ID Card">ID Card</option>
@@ -372,14 +522,12 @@
                             <option value="Notebook">Notebook</option>
                             <option value="OTHER">-- OTHER --</option>
                         </select>
-                        <!-- Custom Item Input -->
-                        <input type="text" id="form-item-other" placeholder="Enter Item..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="form-item-other" placeholder="Enter Item..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500">
                     </div>
 
-                    <!-- Color -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Color *</label>
-                        <select id="form-color" required onchange="handleOtherToggle('color')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm sm:text-xs text-white focus:outline-none focus:border-indigo-500">
+                        <select id="form-color" required onchange="handleOtherToggle('color')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                             <option value="" disabled selected>--SELECT--</option>
                             <option value="Black">Black</option>
                             <option value="Blue">Blue</option>
@@ -388,14 +536,12 @@
                             <option value="White">White</option>
                             <option value="OTHER">-- OTHER --</option>
                         </select>
-                        <!-- Custom Color Input -->
-                        <input type="text" id="form-color-other" placeholder="Enter Color..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="form-color-other" placeholder="Enter Color..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500">
                     </div>
 
-                    <!-- Location -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Location *</label>
-                        <select id="form-location" required onchange="handleOtherToggle('location')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm sm:text-xs text-white focus:outline-none focus:border-indigo-500">
+                        <select id="form-location" required onchange="handleOtherToggle('location')" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl p-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                             <option value="" disabled selected>--SELECT--</option>
                             <option value="Library">Library</option>
                             <option value="Canteen">Canteen</option>
@@ -403,31 +549,29 @@
                             <option value="Seminar Hall">Seminar Hall</option>
                             <option value="OTHER">-- OTHER --</option>
                         </select>
-                        <!-- Custom Location Input -->
-                        <input type="text" id="form-location-other" placeholder="Enter Location..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="form-location-other" placeholder="Enter Location..." class="hidden mt-2 w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Reporter Name</label>
-                        <input type="text" id="form-name" placeholder="Alex Rivera" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="form-name" placeholder="Alex Rivera" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Phone Number</label>
-                        <input type="tel" id="form-phone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="5550000000" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="tel" id="form-phone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="5550000000" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">College Email *</label>
-                    <input type="email" id="form-email" required placeholder="alex.r@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                    <input type="email" id="form-email" required placeholder="alex.r@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
 
-                <!-- DRAG & DROP FILE UPLOAD AREA -->
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Item Image (Optional)</label>
-                    <div id="dropzone" onclick="document.getElementById('form-image').click()" class="w-full border-2 border-dashed border-slate-700/80 hover:border-indigo-500/80 bg-[#0b1120]/60 hover:bg-slate-900/60 rounded-xl p-4 text-center cursor-pointer transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.1)] hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]">
+                    <div id="dropzone" onclick="document.getElementById('form-image').click()" class="w-full border-2 border-dashed border-slate-700/80 hover:border-indigo-500/80 bg-[#0b1120]/60 hover:bg-slate-900/60 rounded-xl p-4 text-center cursor-pointer transition-all">
                         <input type="file" id="form-image" accept="image/*" class="hidden" onchange="handleFileSelect(this.files)">
                         <div id="dropzone-prompt" class="space-y-1">
                             <i data-lucide="upload-cloud" class="w-6 h-6 text-indigo-400 mx-auto"></i>
@@ -445,12 +589,12 @@
 
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Description</label>
-                    <textarea id="form-desc" rows="3" placeholder="Provide distinguishing features..." class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm sm:text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                    <textarea id="form-desc" rows="3" placeholder="Provide distinguishing features..." class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
                 </div>
 
                 <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 border border-slate-700 text-slate-300 text-xs rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl border border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.4)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.02] transition-all">Submit Report</button>
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 border border-slate-700/80 text-slate-300 hover:text-white text-xs font-bold rounded-xl hover:bg-slate-800 shadow-[0_0_10px_rgba(148,163,184,0.15)] transition-all">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl border border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.5)] hover:shadow-[0_0_24px_rgba(99,102,241,0.9)] transition-all">Submit Report</button>
                 </div>
             </form>
         </div>
@@ -466,7 +610,7 @@
                 <h3 class="text-base font-bold text-white">Reported successfully</h3>
                 <p class="text-xs text-slate-400 mt-1">Your submission has been synced to the portal.</p>
             </div>
-            <button onclick="closeSuccessModal()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl border border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.4)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.02] transition-all">
+            <button onclick="closeSuccessModal()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl border border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.5)] transition-all">
                 Continue
             </button>
         </div>
@@ -482,40 +626,32 @@
                 </h3>
                 <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            
-            <div id="details-content" class="space-y-3">
-                <!-- Dynamically Populated -->
-            </div>
-
+            <div id="details-content" class="space-y-3"></div>
             <div class="flex justify-end pt-2">
-                <button onclick="closeDetailsModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs font-bold rounded-xl hover:bg-slate-700 hover:border-slate-600 transition-all">Close</button>
+                <button onclick="closeDetailsModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs font-bold rounded-xl hover:bg-slate-700 hover:text-white border border-slate-700/80 shadow-[0_0_10px_rgba(148,163,184,0.2)] transition-all">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- FULL IMAGE LIGHTBOX MODAL WITH ZOOM, ROTATE & SCROLL -->
+    <!-- FULL IMAGE LIGHTBOX -->
     <div id="image-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 z-50 select-none fix-ios-layer" onclick="closeImageModal()">
-        
-        <!-- Top Toolbar Controls with Glow Shadows -->
         <div class="absolute top-4 right-4 flex items-center space-x-2 z-10" onclick="event.stopPropagation()">
-            <button onclick="zoomImage(0.2)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.05] transition-all" title="Zoom In (+)">
+            <button onclick="zoomImage(0.2)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all" title="Zoom In (+)">
                 <i data-lucide="zoom-in" class="w-5 h-5"></i>
             </button>
-            <button onclick="zoomImage(-0.2)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.05] transition-all" title="Zoom Out (-)">
+            <button onclick="zoomImage(-0.2)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all" title="Zoom Out (-)">
                 <i data-lucide="zoom-out" class="w-5 h-5"></i>
             </button>
-            <button onclick="rotateImage(90)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.05] transition-all" title="Rotate (R)">
+            <button onclick="rotateImage(90)" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all" title="Rotate (R)">
                 <i data-lucide="rotate-cw" class="w-5 h-5"></i>
             </button>
-            <button onclick="resetImageTransform()" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] hover:scale-[1.05] transition-all" title="Reset View (0)">
+            <button onclick="resetImageTransform()" class="p-2.5 bg-slate-900/90 hover:bg-indigo-600 text-slate-300 hover:text-white rounded-xl border border-slate-700/80 shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all" title="Reset View (0)">
                 <i data-lucide="refresh-cw" class="w-5 h-5"></i>
             </button>
-            <button onclick="closeImageModal()" class="p-2.5 bg-rose-600/90 hover:bg-rose-500 text-white rounded-xl border border-rose-400/50 shadow-[0_0_12px_rgba(244,63,94,0.4)] hover:shadow-[0_0_22px_rgba(244,63,94,0.8)] hover:scale-[1.05] transition-all ml-2" title="Close (ESC)">
+            <button onclick="closeImageModal()" class="p-2.5 bg-rose-600/90 hover:bg-rose-500 text-white rounded-xl border border-rose-400/50 shadow-[0_0_12px_rgba(244,63,94,0.4)] transition-all ml-2" title="Close (ESC)">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
-
-        <!-- Image Container with Mouse Scroll Support -->
         <div id="image-modal-container" class="relative max-w-5xl w-full max-h-[85vh] flex items-center justify-center overflow-hidden" onclick="event.stopPropagation()">
             <img id="image-modal-src" src="" alt="Full View" class="max-w-full max-h-[80vh] rounded-2xl object-contain border border-slate-700 shadow-2xl transition-transform duration-100 ease-out">
         </div>
@@ -524,34 +660,29 @@
     <!-- JAVASCRIPT FRONTEND LOGIC -->
     <script>
         let items = [];
+        let currentUser = null;
+
         const defaultHeaders = {
             'ngrok-skip-browser-warning': 'true'
         };
 
-        // Image Viewer State Matrix
         let currentScale = 1;
         let currentRotation = 0;
 
         function lockBodyScroll(lock) {
-            if (lock) {
-                document.body.classList.add('modal-open');
-            } else {
-                document.body.classList.remove('modal-open');
-            }
+            if (lock) document.body.classList.add('modal-open');
+            else document.body.classList.remove('modal-open');
         }
 
         function updateImageTransform() {
             const img = document.getElementById('image-modal-src');
-            if (img) {
-                img.style.transform = `scale(${currentScale}) rotate(${currentRotation}deg)`;
-            }
+            if (img) img.style.transform = `scale(${currentScale}) rotate(${currentRotation}deg)`;
         }
 
         function openImageModal(url) {
             const modal = document.getElementById('image-modal');
             const img = document.getElementById('image-modal-src');
             img.src = url;
-            
             resetImageTransform();
             modal.classList.remove('hidden');
             lockBodyScroll(true);
@@ -580,38 +711,333 @@
             updateImageTransform();
         }
 
-        // Initialize Mouse Wheel Zooming & File Upload Dropzone Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('image-modal-container');
-            
-            // Mouse Wheel Zooming
-            if (container) {
-                container.addEventListener('wheel', (e) => {
-                    e.preventDefault();
-                    const zoomFactor = e.deltaY < 0 ? 0.15 : -0.15;
-                    zoomImage(zoomFactor);
-                }, { passive: false });
+        function requireAuth(actionName = 'perform this action') {
+            if (!currentUser) {
+                alert(`You must be logged in to ${actionName}. Please log in or create an account.`);
+                openAuthModal('login');
+                return false;
+            }
+            return true;
+        }
+
+        async function checkSession() {
+            try {
+                const res = await fetch('api.php?action=me', { headers: defaultHeaders });
+                const user = await res.json();
+                currentUser = (user && user.id) ? user : null;
+                updateUserUI();
+            } catch (e) {
+                currentUser = null;
+                updateUserUI();
+            }
+        }
+
+        function updateUserUI() {
+            const nameEl = document.getElementById('user-display-name');
+            const roleEl = document.getElementById('user-display-role');
+            const btnEl = document.getElementById('auth-action-btn');
+            const changePwBtn = document.getElementById('change-pw-btn');
+            const adminNavBtn = document.getElementById('nav-admin');
+            const myReportsNavBtn = document.getElementById('nav-myreports');
+
+            const isLoggedIn = currentUser && currentUser.id;
+            const isAdmin = isLoggedIn && currentUser.role === 'admin';
+
+            if (isLoggedIn) {
+                nameEl.innerText = currentUser.name;
+                roleEl.innerText = isAdmin ? '⚡ System Admin' : 'Registered User';
+                roleEl.className = isAdmin ? 'text-[10px] text-amber-400 font-bold truncate' : 'text-[10px] text-indigo-400 truncate';
+                btnEl.innerHTML = `<i data-lucide="log-out" class="w-4 h-4"></i>`;
+                btnEl.title = "Logout";
+                btnEl.onclick = logout;
+            } else {
+                nameEl.innerText = "Guest User";
+                roleEl.innerText = "Not Logged In";
+                roleEl.className = 'text-[10px] text-slate-500 truncate';
+                btnEl.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i>`;
+                btnEl.title = "Login";
+                btnEl.onclick = () => openAuthModal('login');
             }
 
-            initDropzone();
-        });
+            if (changePwBtn) changePwBtn.classList.toggle('hidden', !isLoggedIn);
+            if (myReportsNavBtn) myReportsNavBtn.classList.toggle('hidden', !isLoggedIn);
+            if (adminNavBtn) adminNavBtn.classList.toggle('hidden', !isAdmin);
 
-        // Global Keyboard Shortcuts
-        window.addEventListener('keydown', (e) => {
-            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
-                if (e.key === 'Escape') closeModal();
+            const adminTab = document.getElementById('tab-admin');
+            if (!isAdmin && adminTab && !adminTab.classList.contains('hidden')) switchTab('dashboard');
+
+            const myReportsTab = document.getElementById('tab-myreports');
+            if (!isLoggedIn && myReportsTab && !myReportsTab.classList.contains('hidden')) switchTab('dashboard');
+
+            renderDashboard();
+            renderBrowse();
+            renderMatcher();
+            renderMyReports();
+            lucide.createIcons();
+        }
+
+        // RESET ALL AUTH CREDENTIAL FIELDS
+        function resetAuthFormFields() {
+            const form = document.getElementById('auth-form');
+            if (form) form.reset();
+
+            ['auth-name', 'auth-email', 'auth-otp', 'auth-password', 'auth-admin-secret'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            const errEl = document.getElementById('auth-error');
+            if (errEl) {
+                errEl.innerText = '';
+                errEl.classList.add('hidden');
+            }
+        }
+
+        function openAuthModal(mode = 'login') {
+            resetAuthFormFields();
+            document.getElementById('auth-mode').value = mode;
+            document.getElementById('auth-modal-title').innerText = mode === 'login' ? 'Account Login' : 'Register Account';
+            document.getElementById('field-name').classList.toggle('hidden', mode === 'login');
+            document.getElementById('field-otp').classList.toggle('hidden', mode === 'login');
+            document.getElementById('btn-send-reg-otp').classList.toggle('hidden', mode === 'login');
+            document.getElementById('field-admin-secret').classList.toggle('hidden', mode === 'login');
+            document.getElementById('email-hint').classList.toggle('hidden', mode === 'login');
+            document.getElementById('btn-forgot-pw').classList.toggle('hidden', mode !== 'login');
+
+            // Allow saved password autofill on Login; prompt new password on Register
+            const pwInput = document.getElementById('auth-password');
+            if (pwInput) {
+                pwInput.setAttribute('autocomplete', mode === 'login' ? 'current-password' : 'new-password');
+            }
+
+            document.getElementById('auth-submit-btn-text').innerText = mode === 'login' ? 'Log In' : 'Create Account';
+            document.getElementById('auth-toggle-prompt').innerText = mode === 'login' ? "Don't have an account?" : "Already have an account?";
+            document.getElementById('auth-toggle-btn').innerText = mode === 'login' ? 'Register' : 'Log In';
+            document.getElementById('auth-modal').classList.remove('hidden');
+            lockBodyScroll(true);
+        }
+
+        function closeAuthModal() {
+            resetAuthFormFields();
+            document.getElementById('auth-modal').classList.add('hidden');
+            lockBodyScroll(false);
+        }
+
+        function toggleAuthMode() {
+            const currentMode = document.getElementById('auth-mode').value;
+            openAuthModal(currentMode === 'login' ? 'register' : 'login');
+        }
+
+        // REQUEST OTP HANDLER
+        async function requestOtp(purpose = 'register') {
+            const emailInput = (purpose === 'forgot_password') 
+                ? document.getElementById('forgot-email').value.trim()
+                : document.getElementById('auth-email').value.trim();
+
+            const errEl = (purpose === 'forgot_password') 
+                ? document.getElementById('forgot-error')
+                : document.getElementById('auth-error');
+
+            errEl.classList.add('hidden');
+
+            if (!emailInput) {
+                errEl.innerText = "Please enter your campus email first.";
+                errEl.classList.remove('hidden');
                 return;
             }
 
-            const imageModalOpen = !document.getElementById('image-modal').classList.contains('hidden');
+            try {
+                const res = await fetch('api.php?action=send_otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...defaultHeaders },
+                    body: JSON.stringify({ email: emailInput, purpose: purpose })
+                });
 
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    const debugNote = data.debug_otp ? `\n\n[LOCAL TESTING OTP CODE]: ${data.debug_otp}` : '';
+                    alert(`OTP Sent! Check your email: ${emailInput}${debugNote}`);
+                } else {
+                    errEl.innerText = data.error || "Failed to send OTP.";
+                    errEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                errEl.innerText = "Connection error. Failed to request OTP.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const errEl = document.getElementById('auth-error');
+            errEl.classList.add('hidden');
+
+            const mode = document.getElementById('auth-mode').value;
+            const body = {
+                name: document.getElementById('auth-name').value,
+                email: document.getElementById('auth-email').value,
+                password: document.getElementById('auth-password').value,
+                otp: document.getElementById('auth-otp').value,
+                admin_secret: document.getElementById('auth-admin-secret').value
+            };
+
+            try {
+                const res = await fetch(`api.php?action=${mode}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...defaultHeaders },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    closeAuthModal();
+                    if (mode === 'login') {
+                        currentUser = data.user;
+                        updateUserUI();
+                        fetchItems();
+                    } else {
+                        alert("Account created successfully! Please log in.");
+                        openAuthModal('login');
+                    }
+                } else {
+                    errEl.innerText = data.error || 'Authentication failed.';
+                    errEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                errEl.innerText = "Connection failed. Check PHP/MySQL setup.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        // RESET FORGOT / CHANGE PASSWORD FIELDS
+        function resetForgotFormFields() {
+            const form = document.getElementById('forgot-form');
+            if (form) form.reset();
+
+            ['forgot-email', 'forgot-otp', 'forgot-new-password'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            const errEl = document.getElementById('forgot-error');
+            const msgEl = document.getElementById('forgot-msg');
+            if (errEl) { errEl.innerText = ''; errEl.classList.add('hidden'); }
+            if (msgEl) { msgEl.innerText = ''; msgEl.classList.add('hidden'); }
+        }
+
+        function openForgotModal() {
+            closeAuthModal();
+            resetForgotFormFields();
+            const emailInput = document.getElementById('forgot-email');
+            emailInput.readOnly = false;
+            emailInput.classList.remove('opacity-75', 'cursor-not-allowed');
+            document.getElementById('forgot-modal-title').innerText = 'Reset Password';
+            document.getElementById('forgot-modal').classList.remove('hidden');
+            lockBodyScroll(true);
+        }
+
+        function openChangePasswordModal() {
+            if (!requireAuth('change your password')) return;
+            resetForgotFormFields();
+            const emailInput = document.getElementById('forgot-email');
+            emailInput.value = currentUser.email || '';
+            emailInput.readOnly = true;
+            emailInput.classList.add('opacity-75', 'cursor-not-allowed');
+            document.getElementById('forgot-modal-title').innerText = 'Change Password';
+            document.getElementById('forgot-modal').classList.remove('hidden');
+            lockBodyScroll(true);
+
+            if (window.innerWidth < 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar && !sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+            }
+        }
+
+        function closeForgotModal() {
+            resetForgotFormFields();
+            document.getElementById('forgot-modal').classList.add('hidden');
+            lockBodyScroll(false);
+        }
+
+        async function handleForgotResetSubmit(e) {
+            e.preventDefault();
+            const errEl = document.getElementById('forgot-error');
+            const msgEl = document.getElementById('forgot-msg');
+            errEl.classList.add('hidden');
+            msgEl.classList.add('hidden');
+
+            const body = {
+                email: document.getElementById('forgot-email').value.trim(),
+                otp: document.getElementById('forgot-otp').value.trim(),
+                new_password: document.getElementById('forgot-new-password').value
+            };
+
+            try {
+                const res = await fetch('api.php?action=reset_password_otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...defaultHeaders },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    msgEl.innerText = currentUser
+                        ? "Password changed successfully!"
+                        : data.message;
+                    msgEl.classList.remove('hidden');
+                    setTimeout(() => {
+                        closeForgotModal();
+                        if (!currentUser) openAuthModal('login');
+                    }, 1500);
+                } else {
+                    errEl.innerText = data.error || "Password update failed.";
+                    errEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                errEl.innerText = "Connection error. Please try again.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        async function logout() {
+            await fetch('api.php?action=logout', { headers: defaultHeaders });
+            currentUser = null;
+            resetAuthFormFields();
+            resetReportFormFields();
+            updateUserUI();
+            fetchItems();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('image-modal-container');
+            if (container) {
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    zoomImage(e.deltaY < 0 ? 0.15 : -0.15);
+                }, { passive: false });
+            }
+            initDropzone();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    closeAuthModal();
+                    closeForgotModal();
+                }
+                return;
+            }
+            const imageModalOpen = !document.getElementById('image-modal').classList.contains('hidden');
             if (e.key === 'Escape') {
                 closeImageModal();
                 closeModal();
+                closeAuthModal();
+                closeForgotModal();
                 closeDetailsModal();
                 closeSuccessModal();
             }
-
             if (imageModalOpen) {
                 if (e.key === '+' || e.key === '=') zoomImage(0.2);
                 if (e.key === '-' || e.key === '_') zoomImage(-0.2);
@@ -620,82 +1046,52 @@
             }
         });
 
-        // Drag & Drop / Mobile Touch File Upload Handlers
         function initDropzone() {
             const dropzone = document.getElementById('dropzone');
             if (!dropzone) return;
-
-            ['dragenter', 'dragover', 'dragleave', 'drop', 'touchmove'].forEach(eventName => {
-                dropzone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }, false);
+            ['dragenter', 'dragover', 'dragleave', 'drop', 'touchmove'].forEach(ev => {
+                dropzone.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
             });
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => {
-                    dropzone.classList.add('dropzone-active');
-                }, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => {
-                    dropzone.classList.remove('dropzone-active');
-                }, false);
-            });
-
+            ['dragenter', 'dragover'].forEach(ev => dropzone.addEventListener(ev, () => dropzone.classList.add('dropzone-active'), false));
+            ['dragleave', 'drop'].forEach(ev => dropzone.addEventListener(ev, () => dropzone.classList.remove('dropzone-active'), false));
             dropzone.addEventListener('drop', (e) => {
                 const dt = e.dataTransfer;
-                const files = dt ? dt.files : null;
-                if (files && files.length > 0) {
-                    const input = document.getElementById('form-image');
-                    input.files = files;
-                    handleFileSelect(files);
+                if (dt && dt.files.length > 0) {
+                    document.getElementById('form-image').files = dt.files;
+                    handleFileSelect(dt.files);
                 }
             });
         }
 
         function handleFileSelect(files) {
             if (files && files.length > 0) {
-                const prompt = document.getElementById('dropzone-prompt');
-                const preview = document.getElementById('dropzone-preview');
-                const filenameSpan = document.getElementById('preview-filename');
-
-                filenameSpan.innerText = files[0].name;
-                prompt.classList.add('hidden');
-                preview.classList.remove('hidden');
-                preview.classList.add('flex');
+                document.getElementById('preview-filename').innerText = files[0].name;
+                document.getElementById('dropzone-prompt').classList.add('hidden');
+                document.getElementById('dropzone-preview').classList.remove('hidden');
+                document.getElementById('dropzone-preview').classList.add('flex');
                 lucide.createIcons();
             }
         }
 
         function removeSelectedFile() {
-            const input = document.getElementById('form-image');
-            const prompt = document.getElementById('dropzone-prompt');
-            const preview = document.getElementById('dropzone-preview');
-
-            input.value = '';
-            prompt.classList.remove('hidden');
-            preview.classList.add('hidden');
-            preview.classList.remove('flex');
+            document.getElementById('form-image').value = '';
+            document.getElementById('dropzone-prompt').classList.remove('hidden');
+            document.getElementById('dropzone-preview').classList.add('hidden');
+            document.getElementById('dropzone-preview').classList.remove('flex');
         }
 
-        // SIDEBAR TOGGLE FUNCTIONALITY (FOR MOBILE UX)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const isCollapsed = sidebar.classList.toggle('-translate-x-full');
-            
             overlay.classList.toggle('hidden', isCollapsed);
             lockBodyScroll(!isCollapsed && window.innerWidth < 768);
             lucide.createIcons();
         }
 
-        // Dynamic 'OTHER' Input Toggle Handler
         function handleOtherToggle(field) {
             const selectEl = document.getElementById(`form-${field}`);
             const otherInput = document.getElementById(`form-${field}-other`);
-            
             if (selectEl.value === 'OTHER') {
                 otherInput.classList.remove('hidden');
                 otherInput.required = true;
@@ -707,7 +1103,6 @@
             }
         }
 
-        // 1. Fetch Items
         async function fetchItems() {
             try {
                 const res = await fetch('api.php', { headers: defaultHeaders });
@@ -715,36 +1110,56 @@
                 renderDashboard();
                 renderBrowse();
                 renderMatcher();
+                renderMyReports();
             } catch (e) {
                 console.error("API Fetch Error:", e);
             }
         }
 
-        // Tab Switcher
         function switchTab(tab) {
-            ['dashboard', 'browse', 'matcher'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tab);
+            const isLoggedIn = currentUser && currentUser.id;
+            const isAdmin = isLoggedIn && currentUser.role === 'admin';
+
+            if (tab === 'admin' && !isAdmin) tab = 'dashboard';
+            if (tab === 'myreports' && !isLoggedIn) tab = 'dashboard';
+
+            ['dashboard', 'browse', 'matcher', 'myreports', 'admin'].forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.classList.toggle('hidden', t !== tab);
             });
 
-            // Update Sidebar Active Button State
-            ['dashboard', 'browse', 'matcher'].forEach(t => {
+            ['dashboard', 'browse', 'matcher', 'myreports', 'admin'].forEach(t => {
                 const btn = document.getElementById(`nav-${t}`);
-                if (t === tab) {
-                    btn.className = "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-400/60 shadow-[0_0_12px_rgba(99,102,241,0.4)] hover:shadow-[0_0_22px_rgba(99,102,241,0.8)] transition-all";
+                if (!btn) return;
+                const isActive = t === tab;
+                if (t === 'admin') {
+                    btn.classList.toggle('hidden', !isAdmin);
+                    btn.className = isActive 
+                        ? "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-amber-500 text-slate-950 border border-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.4)] transition-all"
+                        : "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-amber-400 border border-transparent hover:bg-amber-500/10 hover:border-amber-500/30 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)] transition-all";
+                    if (!isAdmin) btn.classList.add('hidden');
+                } else if (t === 'myreports') {
+                    btn.classList.toggle('hidden', !isLoggedIn);
+                    btn.className = isActive 
+                        ? "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-400/60 shadow-[0_0_12px_rgba(99,102,241,0.4)] transition-all"
+                        : "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-indigo-400 border border-transparent hover:bg-indigo-500/10 hover:border-indigo-500/30 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)] transition-all";
+                    if (!isLoggedIn) btn.classList.add('hidden');
                 } else {
-                    btn.className = "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border border-transparent hover:text-white hover:bg-slate-800/60 hover:border-slate-700/60 hover:shadow-[0_0_12px_rgba(148,163,184,0.2)] transition-all";
+                    btn.className = isActive 
+                        ? "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-400/60 shadow-[0_0_12px_rgba(99,102,241,0.4)] transition-all"
+                        : "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border border-transparent hover:text-white hover:bg-slate-800/60 hover:border-slate-700/60 hover:shadow-[0_0_12px_rgba(148,163,184,0.2)] transition-all";
                 }
             });
+
+            if (tab === 'admin') fetchUsers();
+            if (tab === 'myreports') renderMyReports();
 
             if (window.innerWidth < 768) {
                 const sidebar = document.getElementById('sidebar');
-                if (!sidebar.classList.contains('-translate-x-full')) {
-                    toggleSidebar();
-                }
+                if (sidebar && !sidebar.classList.contains('-translate-x-full')) toggleSidebar();
             }
         }
 
-        // Render Dashboard Content
         function renderDashboard() {
             const activeLost = items.filter(i => i.type === 'lost' && i.status === 'active');
             const activeFound = items.filter(i => i.type === 'found' && i.status === 'active');
@@ -754,12 +1169,10 @@
             document.getElementById('stat-found').innerText = activeFound.length;
             document.getElementById('stat-resolved').innerText = resolved.length;
 
-            const feed = document.getElementById('dashboard-feed');
-            feed.innerHTML = items.slice(0, 6).map(item => renderItemCard(item)).join('');
+            document.getElementById('dashboard-feed').innerHTML = items.slice(0, 6).map(item => renderItemCard(item)).join('');
             lucide.createIcons();
         }
 
-        // Render Browse Tab Content
         function renderBrowse() {
             const search = document.getElementById('search-input').value.toLowerCase();
             const typeFilter = document.getElementById('filter-type').value;
@@ -770,7 +1183,6 @@
                 if (typeFilter === 'resolved' && i.status !== 'resolved') return false;
 
                 const itemType = i.item || i.category || '';
-
                 return (i.title && i.title.toLowerCase().includes(search)) || 
                        (itemType && itemType.toLowerCase().includes(search)) ||
                        (i.description && i.description.toLowerCase().includes(search)) ||
@@ -782,7 +1194,6 @@
             lucide.createIcons();
         }
 
-        // Render Smart Matcher Content
         function renderMatcher() {
             const activeLost = items.filter(i => i.type === 'lost' && i.status === 'active');
             const activeFound = items.filter(i => i.type === 'found' && i.status === 'active');
@@ -793,11 +1204,9 @@
                     let score = 0;
                     const lostItem = lost.item || lost.category;
                     const foundItem = found.item || found.category;
-
                     if (lostItem === foundItem) score += 40;
                     if (lost.color === found.color) score += 30;
                     if (lost.location === found.location) score += 30;
-
                     if (score >= 40) matches.push({ lost, found, score });
                 });
             });
@@ -809,21 +1218,22 @@
             if (matches.length > 0) {
                 banner.classList.remove('hidden');
                 document.getElementById('banner-match-count').innerText = `${matches.length} candidate pairs`;
-            } else {
-                banner.classList.add('hidden');
-            }
+            } else banner.classList.add('hidden');
 
             const matcherFeed = document.getElementById('matcher-feed');
             if (matches.length === 0) {
-                matcherFeed.innerHTML = `<div class="bg-[#0f172a] border border-slate-800 p-8 rounded-2xl text-center text-xs text-slate-500">No match candidates detected currently.</div>`;
+                matcherFeed.innerHTML = `<div class="bg-[#0f172a]/90 border border-slate-800 p-8 rounded-2xl text-center text-xs text-slate-500">No match candidates detected currently.</div>`;
                 return;
             }
 
+            const canResolvePair = currentUser !== null;
             matcherFeed.innerHTML = matches.map(m => `
-                <div class="bg-[#0f172a] border border-slate-800 p-4 rounded-2xl space-y-3">
+                <div class="bg-[#0f172a]/90 border border-slate-800 p-4 rounded-2xl space-y-3">
                     <div class="flex items-center justify-between pb-2 border-b border-slate-800">
                         <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">${m.score}% MATCH CONFIDENCE</span>
-                        <button onclick="resolvePair(${m.lost.id}, ${m.found.id})" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg border border-indigo-400/50 shadow-[0_0_10px_rgba(99,102,241,0.4)] hover:shadow-[0_0_18px_rgba(99,102,241,0.8)] transition-all">Confirm Pair & Resolve</button>
+                        ${canResolvePair ? `
+                            <button onclick="resolvePair(${m.lost.id}, ${m.found.id})" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg border border-indigo-400/50 shadow-[0_0_10px_rgba(99,102,241,0.4)] hover:shadow-[0_0_18px_rgba(99,102,241,0.8)] transition-all">Confirm Pair & Resolve</button>
+                        ` : `<span class="text-[10px] text-slate-500 italic">Log in to resolve match</span>`}
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="bg-[#0b1120] p-3 rounded-xl border border-rose-500/20">
@@ -842,14 +1252,71 @@
             lucide.createIcons();
         }
 
-        // Item Card Template
+        function renderMyReports() {
+            if (!currentUser) return;
+            const myReportsFeed = document.getElementById('myreports-feed');
+            const myItems = items.filter(i => i.user_id && parseInt(i.user_id) === parseInt(currentUser.id));
+            if (myItems.length === 0) {
+                myReportsFeed.innerHTML = `<div class="col-span-full bg-[#0f172a]/90 border border-slate-800 p-8 rounded-2xl text-center text-xs text-slate-500">You haven't submitted any reports yet.</div>`;
+                return;
+            }
+            myReportsFeed.innerHTML = myItems.map(item => renderItemCard(item)).join('');
+            lucide.createIcons();
+        }
+
+        async function fetchUsers() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            try {
+                const res = await fetch('api.php?action=users', { headers: defaultHeaders });
+                const users = await res.json();
+                const tbody = document.getElementById('admin-users-table-body');
+                tbody.innerHTML = users.map(u => `
+                    <tr class="hover:bg-slate-800/40 transition-colors">
+                        <td class="p-4 font-mono text-slate-400">#${u.id}</td>
+                        <td class="p-4 font-semibold text-white">${u.name}</td>
+                        <td class="p-4 text-indigo-400">${u.email}</td>
+                        <td class="p-4">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-slate-800 text-slate-300'}">${u.role}</span>
+                        </td>
+                        <td class="p-4 text-slate-400">${u.created_at ? u.created_at.split(' ')[0] : 'N/A'}</td>
+                        <td class="p-4 text-right">
+                            ${u.id !== currentUser.id ? `
+                                <button onclick="updateRole(${u.id}, '${u.role === 'admin' ? 'user' : 'admin'}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${u.role === 'admin' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/40 shadow-[0_0_8px_rgba(244,63,94,0.2)] hover:shadow-[0_0_16px_rgba(244,63,94,0.6)]' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/40 shadow-[0_0_8px_rgba(16,185,129,0.2)] hover:shadow-[0_0_16px_rgba(16,185,129,0.6)]'} hover:scale-[1.02] transition-all">
+                                    ${u.role === 'admin' ? 'Demote to User' : 'Promote to Admin'}
+                                </button>
+                            ` : `<span class="text-[10px] text-slate-500 italic">Current Session</span>`}
+                        </td>
+                    </tr>
+                `).join('');
+                lucide.createIcons();
+            } catch (e) {
+                console.error("Failed to fetch user list:", e);
+            }
+        }
+
+        async function updateRole(userId, newRole) {
+            if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) return;
+            try {
+                const res = await fetch('api.php?action=update_user_role', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', ...defaultHeaders },
+                    body: JSON.stringify({ user_id: userId, role: newRole })
+                });
+                if (res.ok) fetchUsers();
+                else alert("Failed to update user role.");
+            } catch (e) { console.error("Update role error:", e); }
+        }
+
         function renderItemCard(item) {
             const isLost = item.type === 'lost';
             const isResolved = item.status === 'resolved';
             const itemType = item.item || item.category || 'N/A';
+            const isOwner = currentUser && item.user_id && (parseInt(item.user_id) === parseInt(currentUser.id));
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const canModify = currentUser && (isOwner || isAdmin);
 
             return `
-                <div class="bg-[#0f172a] border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:border-slate-700 hover:shadow-[0_0_20px_rgba(15,23,42,0.8)] transition-all">
+                <div class="bg-[#0f172a]/90 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:border-slate-700 hover:shadow-[0_0_20px_rgba(15,23,42,0.8)] transition-all">
                     <div>
                         ${item.image_url ? `
                             <div class="w-full h-36 rounded-xl overflow-hidden mb-3 border border-slate-800 cursor-pointer group relative" onclick="openImageModal('${item.image_url}')">
@@ -863,9 +1330,7 @@
                             <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider ${
                                 isResolved ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
                                 isLost ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                            }">
-                                ${isResolved ? 'Claimed' : item.type.toUpperCase()}
-                            </span>
+                            }">${isResolved ? 'Claimed' : item.type.toUpperCase()}</span>
                             <span class="text-[11px] text-slate-500 font-medium">${item.date}</span>
                         </div>
                         <h4 class="font-bold text-white text-sm mt-2 line-clamp-1">${item.title}</h4>
@@ -879,30 +1344,30 @@
                     </div>
 
                     <div class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs">
-                        <button onclick="viewDetails(${item.id})" class="text-indigo-400 hover:text-indigo-300 font-semibold text-xs flex items-center space-x-1">
+                        <button onclick="viewDetails(${item.id})" class="px-2.5 py-1 bg-indigo-600/10 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg border border-indigo-500/30 shadow-[0_0_8px_rgba(99,102,241,0.2)] hover:shadow-[0_0_16px_rgba(99,102,241,0.6)] hover:scale-[1.02] font-semibold text-xs flex items-center space-x-1 transition-all">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                             <span>Details</span>
                         </button>
-                        <div class="flex items-center space-x-1.5">
-                            ${!isResolved ? `
-                                <button onclick="markResolved(${item.id})" class="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/40 shadow-[0_0_8px_rgba(16,185,129,0.2)] hover:shadow-[0_0_15px_rgba(16,185,129,0.6)] transition-all" title="Mark Claimed">
-                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        ${canModify ? `
+                            <div class="flex items-center space-x-1.5">
+                                ${!isResolved ? `
+                                    <button onclick="markResolved(${item.id})" class="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/40 shadow-[0_0_8px_rgba(16,185,129,0.2)] hover:shadow-[0_0_15px_rgba(16,185,129,0.6)] transition-all" title="Mark Claimed">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                ` : ''}
+                                <button onclick="deleteRecord(${item.id})" class="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/40 shadow-[0_0_8px_rgba(244,63,94,0.2)] hover:shadow-[0_0_15px_rgba(244,63,94,0.6)] transition-all" title="Delete">
+                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                                 </button>
-                            ` : ''}
-                            <button onclick="deleteRecord(${item.id})" class="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/40 shadow-[0_0_8px_rgba(244,63,94,0.2)] hover:shadow-[0_0_15px_rgba(244,63,94,0.6)] transition-all" title="Delete">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
         }
 
-        // View Detailed Item Information
         function viewDetails(id) {
             const item = items.find(i => i.id == id);
             if (!item) return;
-
             const itemType = item.item || item.category || 'N/A';
             const content = document.getElementById('details-content');
             content.innerHTML = `
@@ -914,7 +1379,6 @@
                         </div>
                     </div>
                 ` : ''}
-
                 <div>
                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${
                         item.status === 'resolved' ? 'bg-indigo-500/20 text-indigo-300' :
@@ -922,27 +1386,23 @@
                     }">${item.status === 'resolved' ? 'CLAIMED' : item.type.toUpperCase()}</span>
                     <h2 class="text-base font-bold text-white mt-2">${item.title}</h2>
                 </div>
-
                 <div class="bg-[#0b1120] p-3 rounded-xl border border-slate-800 space-y-1.5 text-xs">
                     <p class="text-slate-400"><strong class="text-slate-200">Item:</strong> ${itemType}</p>
                     <p class="text-slate-400"><strong class="text-slate-200">Color:</strong> ${item.color}</p>
                     <p class="text-slate-400"><strong class="text-slate-200">Location:</strong> ${item.location}</p>
                     <p class="text-slate-400"><strong class="text-slate-200">Date Logged:</strong> ${item.date}</p>
                 </div>
-
                 <div class="bg-[#0b1120] p-3 rounded-xl border border-slate-800 text-xs">
                     <p class="text-[10px] font-bold text-slate-500 uppercase">Reporter Contact Information</p>
                     <p class="text-white font-semibold mt-1">${item.reporter_name || 'Anonymous'}</p>
                     <p class="text-indigo-400">${item.reporter_email}</p>
                     <p class="text-slate-400 mt-0.5">${item.reporter_phone || 'N/A'}</p>
                 </div>
-
                 <div class="text-xs text-slate-300 bg-[#0b1120] p-3 rounded-xl border border-slate-800">
                     <p class="text-[10px] font-bold text-slate-500 uppercase mb-1">Description</p>
                     <p class="leading-relaxed">${item.description || 'No additional details.'}</p>
                 </div>
             `;
-
             document.getElementById('details-modal').classList.remove('hidden');
             lockBodyScroll(true);
             lucide.createIcons();
@@ -953,25 +1413,15 @@
             lockBodyScroll(false);
         }
 
-        // Open Form Modal
-        function openReportModal(type) {
-            document.getElementById('form-type').value = type;
-            document.getElementById('modal-title').innerText = `Report ${type === 'lost' ? 'Lost' : 'Found'} Item`;
-            document.getElementById('report-modal').classList.remove('hidden');
-            lockBodyScroll(true);
+        // RESET ALL ITEM REPORT FIELDS
+        function resetReportFormFields() {
+            const form = document.getElementById('report-form');
+            if (form) form.reset();
 
-            if (window.innerWidth < 768) {
-                const sidebar = document.getElementById('sidebar');
-                if (!sidebar.classList.contains('-translate-x-full')) {
-                    toggleSidebar();
-                }
-            }
-        }
-
-        // Close Form Modal & Reset Dropdowns
-        function closeModal() {
-            document.getElementById('report-modal').classList.add('hidden');
-            lockBodyScroll(false);
+            ['form-title', 'form-name', 'form-phone', 'form-email', 'form-desc'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
 
             ['item', 'color', 'location'].forEach(field => {
                 const selectEl = document.getElementById(`form-${field}`);
@@ -983,10 +1433,49 @@
                     otherInput.value = '';
                 }
             });
+
             removeSelectedFile();
         }
+        function openReportModal(type) {
+            if (!requireAuth(`report a ${type} item`)) return;
 
-        // Show and Close Success Notification Modal
+            resetReportFormFields();
+            document.getElementById('form-type').value = type;
+            document.getElementById('modal-title').innerText = `Report ${type === 'lost' ? 'Lost' : 'Found'} Item`;
+
+            const nameInput = document.getElementById('form-name');
+            const emailInput = document.getElementById('form-email');
+
+            if (currentUser) {
+                nameInput.value = currentUser.name || '';
+                nameInput.readOnly = true;
+                nameInput.classList.add('opacity-75', 'cursor-not-allowed');
+
+                emailInput.value = currentUser.email || '';
+                emailInput.readOnly = true;
+                emailInput.classList.add('opacity-75', 'cursor-not-allowed');
+            } else {
+                nameInput.readOnly = false;
+                nameInput.classList.remove('opacity-75', 'cursor-not-allowed');
+                emailInput.readOnly = false;
+                emailInput.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+
+            document.getElementById('report-modal').classList.remove('hidden');
+            lockBodyScroll(true);
+
+            if (window.innerWidth < 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+            }
+        }
+
+        function closeModal() {
+            resetReportFormFields();
+            document.getElementById('report-modal').classList.add('hidden');
+            lockBodyScroll(false);
+        }
+
         function showSuccessModal() {
             document.getElementById('success-modal').classList.remove('hidden');
             lockBodyScroll(true);
@@ -998,16 +1487,13 @@
             lockBodyScroll(false);
         }
 
-        // API Submissions with Image File Upload & FormData
         async function submitReport(e) {
             e.preventDefault();
+            if (!requireAuth('submit a report')) return;
 
             const getFieldValue = (field) => {
                 const selectVal = document.getElementById(`form-${field}`).value;
-                if (selectVal === 'OTHER') {
-                    return document.getElementById(`form-${field}-other`).value.trim();
-                }
-                return selectVal;
+                return selectVal === 'OTHER' ? document.getElementById(`form-${field}-other`).value.trim() : selectVal;
             };
 
             const formData = new FormData();
@@ -1023,28 +1509,23 @@
             formData.append('description', document.getElementById('form-desc').value);
 
             const fileInput = document.getElementById('form-image');
-            if (fileInput && fileInput.files.length > 0) {
-                formData.append('image', fileInput.files[0]);
-            }
+            if (fileInput && fileInput.files.length > 0) formData.append('image', fileInput.files[0]);
 
             try {
-                const res = await fetch('api.php', {
-                    method: 'POST',
-                    headers: defaultHeaders,
-                    body: formData
-                });
-
+                const res = await fetch('api.php', { method: 'POST', headers: defaultHeaders, body: formData });
                 if (res.ok) {
                     closeModal();
                     fetchItems();
                     showSuccessModal();
+                } else {
+                    const err = await res.json();
+                    alert(err.error || "Submission failed");
                 }
-            } catch (err) {
-                console.error("Submission failed:", err);
-            }
+            } catch (err) { console.error("Submission failed:", err); }
         }
 
         async function markResolved(id) {
+            if (!requireAuth('mark items as claimed')) return;
             await fetch('api.php', {
                 method: 'PUT',
                 headers: { ...defaultHeaders, 'Content-Type': 'application/json' },
@@ -1054,21 +1535,24 @@
         }
 
         async function resolvePair(id1, id2) {
+            if (!requireAuth('resolve matched pairs')) return;
             await markResolved(id1);
             await markResolved(id2);
         }
 
         async function deleteRecord(id) {
+            if (!requireAuth('delete items')) return;
             if (!confirm("Are you sure you want to delete this report?")) return;
-            await fetch('api.php', {
+            const res = await fetch('api.php', {
                 method: 'DELETE',
                 headers: { ...defaultHeaders, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id })
             });
-            fetchItems();
+            if (res.ok) fetchItems();
+            else { const err = await res.json(); alert(err.error || "Failed to delete report."); }
         }
 
-        // Initialize App
+        checkSession();
         fetchItems();
     </script>
 </body>
