@@ -409,15 +409,27 @@
                     <input type="text" id="auth-name" name="name" autocomplete="name" placeholder="Alex Rivera" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
 
+                <!-- ADMIN PASSCODE VERIFICATION (ABOVE EMAIL FOR ADMIN UNLOCK) -->
+                <div id="field-admin-secret" class="hidden">
+                    <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">Admin Passcode (Optional)</label>
+                    <div class="flex gap-2">
+                        <input type="password" id="auth-admin-secret" name="admin_secret" autocomplete="off" placeholder="Enter admin code..." class="w-full bg-[#0b1120] border border-amber-500/40 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                        <button type="button" id="btn-verify-admin" onclick="verifyAdminSecret()" class="px-3 py-2 bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-slate-950 rounded-xl border border-amber-500/40 text-xs font-bold whitespace-nowrap shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:shadow-[0_0_16px_rgba(245,158,11,0.6)] transition-all">
+                            Verify
+                        </button>
+                    </div>
+                    <p id="admin-verify-status" class="text-[10px] text-emerald-400 font-semibold mt-1 hidden">✓ Admin verified — personal email allowed</p>
+                </div>
+
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">College Email Address *</label>
+                    <label id="auth-email-label" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">College Email Address *</label>
                     <div class="flex gap-2">
                         <input type="email" id="auth-email" name="email" required autocomplete="username" placeholder="alex@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                         <button type="button" id="btn-send-reg-otp" onclick="requestOtp('register')" class="hidden px-3 py-2 bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600 hover:text-white rounded-xl border border-indigo-500/40 text-xs font-bold whitespace-nowrap shadow-[0_0_8px_rgba(99,102,241,0.3)] hover:shadow-[0_0_16px_rgba(99,102,241,0.6)] transition-all">
                             Send OTP
                         </button>
                     </div>
-                    <p id="email-hint" class="text-[10px] text-slate-500 mt-1 hidden">Must end with <span class="text-indigo-400 font-semibold">@college.edu</span></p>
+                    <p id="email-hint" class="text-[10px] text-slate-500 mt-1 hidden">Must end with <span class="text-indigo-400 font-semibold">@college.edu</span> (or verify Admin Passcode above)</p>
                 </div>
 
                 <div id="field-otp" class="hidden">
@@ -431,11 +443,6 @@
                         <button type="button" id="btn-forgot-pw" onclick="openForgotModal()" class="text-[10px] text-indigo-400 hover:underline">Forgot Password?</button>
                     </div>
                     <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="••••••••" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
-                </div>
-
-                <div id="field-admin-secret" class="hidden">
-                    <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">Admin Passcode (Optional)</label>
-                    <input type="password" id="auth-admin-secret" name="admin_secret" autocomplete="off" placeholder="Enter admin code..." class="w-full bg-[#0b1120] border border-amber-500/40 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
                 </div>
 
                 <p id="auth-error" class="text-xs text-rose-400 hidden font-semibold"></p>
@@ -465,7 +472,7 @@
 
             <form id="forgot-form" onsubmit="handleForgotResetSubmit(event)" autocomplete="off" class="space-y-3">
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Campus Email Address *</label>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Registered Email Address *</label>
                     <div class="flex gap-2">
                         <input type="email" id="forgot-email" required autocomplete="off" placeholder="alex@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                         <button type="button" onclick="requestOtp('forgot_password')" class="px-3 py-2 bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-slate-950 rounded-xl border border-amber-500/40 text-xs font-bold whitespace-nowrap shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:shadow-[0_0_16px_rgba(245,158,11,0.6)] transition-all">
@@ -565,7 +572,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">College Email *</label>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Contact Email *</label>
                     <input type="email" id="form-email" required placeholder="alex.r@college.edu" class="w-full bg-[#0b1120] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
 
@@ -661,6 +668,7 @@
     <script>
         let items = [];
         let currentUser = null;
+        let isAdminCodeVerified = false;
 
         const defaultHeaders = {
             'ngrok-skip-browser-warning': 'true'
@@ -781,10 +789,36 @@
             const form = document.getElementById('auth-form');
             if (form) form.reset();
 
+            isAdminCodeVerified = false;
+
             ['auth-name', 'auth-email', 'auth-otp', 'auth-password', 'auth-admin-secret'].forEach(id => {
                 const el = document.getElementById(id);
-                if (el) el.value = '';
+                if (el) {
+                    el.value = '';
+                    el.readOnly = false;
+                    el.classList.remove('opacity-75', 'cursor-not-allowed');
+                }
             });
+
+            const verifyBtn = document.getElementById('btn-verify-admin');
+            if (verifyBtn) {
+                verifyBtn.innerText = 'Verify';
+                verifyBtn.disabled = false;
+            }
+
+            const statusEl = document.getElementById('admin-verify-status');
+            if (statusEl) statusEl.classList.add('hidden');
+
+            const emailLabel = document.getElementById('auth-email-label');
+            if (emailLabel) emailLabel.innerText = 'College Email Address *';
+
+            const emailInput = document.getElementById('auth-email');
+            if (emailInput) emailInput.placeholder = 'alex@college.edu';
+
+            const emailHint = document.getElementById('email-hint');
+            if (emailHint) {
+                emailHint.innerHTML = 'Must end with <span class="text-indigo-400 font-semibold">@college.edu</span> (or verify Admin Passcode above)';
+            }
 
             const errEl = document.getElementById('auth-error');
             if (errEl) {
@@ -804,7 +838,11 @@
             document.getElementById('email-hint').classList.toggle('hidden', mode === 'login');
             document.getElementById('btn-forgot-pw').classList.toggle('hidden', mode !== 'login');
 
-            // Allow saved password autofill on Login; prompt new password on Register
+            if (mode === 'login') {
+                document.getElementById('auth-email-label').innerText = 'Email Address *';
+                document.getElementById('auth-email').placeholder = 'alex@college.edu';
+            }
+
             const pwInput = document.getElementById('auth-password');
             if (pwInput) {
                 pwInput.setAttribute('autocomplete', mode === 'login' ? 'current-password' : 'new-password');
@@ -828,11 +866,62 @@
             openAuthModal(currentMode === 'login' ? 'register' : 'login');
         }
 
+        // VERIFY ADMIN PASSCODE HANDLER
+        async function verifyAdminSecret() {
+            const secretInput = document.getElementById('auth-admin-secret');
+            const statusEl = document.getElementById('admin-verify-status');
+            const errEl = document.getElementById('auth-error');
+            const verifyBtn = document.getElementById('btn-verify-admin');
+
+            errEl.classList.add('hidden');
+            statusEl.classList.add('hidden');
+
+            const code = secretInput.value.trim();
+            if (!code) {
+                errEl.innerText = "Please enter the Admin Passcode first.";
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const res = await fetch('api.php?action=verify_admin_code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...defaultHeaders },
+                    body: JSON.stringify({ admin_secret: code })
+                });
+
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    isAdminCodeVerified = true;
+                    secretInput.readOnly = true;
+                    secretInput.classList.add('opacity-75', 'cursor-not-allowed');
+                    verifyBtn.innerText = 'Verified';
+                    verifyBtn.disabled = true;
+
+                    statusEl.classList.remove('hidden');
+                    document.getElementById('auth-email-label').innerText = 'Admin Email Address *';
+                    document.getElementById('auth-email').placeholder = 'admin@gmail.com';
+                    document.getElementById('email-hint').innerHTML = 'Any valid personal or campus email is allowed.';
+                } else {
+                    isAdminCodeVerified = false;
+                    errEl.innerText = data.error || "Invalid Admin Passcode.";
+                    errEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                errEl.innerText = "Connection error while verifying admin code.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
         // REQUEST OTP HANDLER
         async function requestOtp(purpose = 'register') {
             const emailInput = (purpose === 'forgot_password') 
                 ? document.getElementById('forgot-email').value.trim()
                 : document.getElementById('auth-email').value.trim();
+
+            const adminSecretInput = (purpose === 'register')
+                ? document.getElementById('auth-admin-secret').value.trim()
+                : '';
 
             const errEl = (purpose === 'forgot_password') 
                 ? document.getElementById('forgot-error')
@@ -841,7 +930,7 @@
             errEl.classList.add('hidden');
 
             if (!emailInput) {
-                errEl.innerText = "Please enter your campus email first.";
+                errEl.innerText = "Please enter your email first.";
                 errEl.classList.remove('hidden');
                 return;
             }
@@ -850,7 +939,11 @@
                 const res = await fetch('api.php?action=send_otp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', ...defaultHeaders },
-                    body: JSON.stringify({ email: emailInput, purpose: purpose })
+                    body: JSON.stringify({ 
+                        email: emailInput, 
+                        purpose: purpose,
+                        admin_secret: adminSecretInput
+                    })
                 });
 
                 const data = await res.json();
@@ -1436,6 +1529,7 @@
 
             removeSelectedFile();
         }
+
         function openReportModal(type) {
             if (!requireAuth(`report a ${type} item`)) return;
 

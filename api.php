@@ -112,6 +112,20 @@ function sendOtpEmail($toEmail, $otp, $purpose, $smtpHost, $smtpPort, $smtpUser,
 // OTP & AUTHENTICATION ENDPOINTS
 // ------------------------------------------------------------------
 
+// 0. VERIFY ADMIN PASSCODE
+if ($action === 'verify_admin_code' && $method === 'POST') {
+    $data = getRequestBody();
+    $adminSecret = trim($data['admin_secret'] ?? '');
+
+    if (!empty($adminSecret) && hash_equals($adminPasscode, $adminSecret)) {
+        echo json_encode(["success" => true, "message" => "Admin code verified! Personal emails are now unlocked."]);
+    } else {
+        http_response_code(403);
+        echo json_encode(["error" => "Invalid Admin Passcode."]);
+    }
+    exit();
+}
+
 // 1. REQUEST OTP (Register or Forgot/Change Password)
 if ($action === 'send_otp' && $method === 'POST') {
     purgeExpiredOTPs($conn);
@@ -119,18 +133,15 @@ if ($action === 'send_otp' && $method === 'POST') {
     $data = getRequestBody();
     $email = trim($data['email'] ?? '');
     $purpose = trim($data['purpose'] ?? 'register');
+    $adminSecret = trim($data['admin_secret'] ?? '');
 
-    if (empty($email)) {
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
-        echo json_encode(["error" => "Email address is required."]);
+        echo json_encode(["error" => "A valid email address is required."]);
         exit();
     }
 
-    if (!str_ends_with(strtolower($email), strtolower($allowedDomain))) {
-        http_response_code(400);
-        echo json_encode(["error" => "Restricted to campus emails ($allowedDomain)."]);
-        exit();
-    }
+    $isAdminRegistration = ($purpose === 'register' && !empty($adminSecret) && hash_equals($adminPasscode, $adminSecret));
 
     if ($purpose === 'forgot_password') {
         $checkUser = $conn->prepare("SELECT id FROM users WHERE email = ?");
@@ -138,10 +149,16 @@ if ($action === 'send_otp' && $method === 'POST') {
         $checkUser->execute();
         if ($checkUser->get_result()->num_rows === 0) {
             http_response_code(404);
-            echo json_encode(["error" => "No account found registered with this campus email."]);
+            echo json_encode(["error" => "No account found registered with this email."]);
             exit();
         }
     } elseif ($purpose === 'register') {
+        if (!$isAdminRegistration && !str_ends_with(strtolower($email), strtolower($allowedDomain))) {
+            http_response_code(400);
+            echo json_encode(["error" => "Restricted to campus emails ($allowedDomain). Verify Admin Passcode to use a personal email."]);
+            exit();
+        }
+
         $checkUser = $conn->prepare("SELECT id FROM users WHERE email = ?");
         $checkUser->bind_param("s", $email);
         $checkUser->execute();
@@ -193,6 +210,14 @@ if ($action === 'register' && $method === 'POST') {
         exit();
     }
 
+    $isAdmin = (!empty($adminSecret) && hash_equals($adminPasscode, $adminSecret));
+
+    if (!$isAdmin && !str_ends_with(strtolower($email), strtolower($allowedDomain))) {
+        http_response_code(400);
+        echo json_encode(["error" => "Restricted to campus emails ($allowedDomain)."]);
+        exit();
+    }
+
     $vStmt = $conn->prepare("SELECT id FROM verifications WHERE email = ? AND otp = ? AND purpose = 'register' AND expires_at > NOW()");
     $vStmt->bind_param("ss", $email, $otp);
     $vStmt->execute();
@@ -202,7 +227,7 @@ if ($action === 'register' && $method === 'POST') {
         exit();
     }
 
-    $role = ($adminSecret === $adminPasscode) ? 'admin' : 'user';
+    $role = $isAdmin ? 'admin' : 'user';
     $hashedPassword = password_hash($rawPassword, PASSWORD_BCRYPT);
 
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
