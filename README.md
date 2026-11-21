@@ -7,7 +7,7 @@ ReclaimX is a full-stack campus lost-and-found web portal designed to help stude
 ## ✨ Key Features
 
 - **OTP Email Verification (PHPMailer + SMTP):** Secures account registration and password resets using time-limited 6-digit one-time passcodes.
-- **Campus Domain & Admin Passcode Access Control:** Restricts standard student accounts to institutional email addresses (`@hitam.org`), while allowing authorized administrators to unlock personal email registration via an encrypted Admin Passcode check.
+- **Campus Domain & Admin Passcode Access Control:** Restricts standard student accounts to institutional email addresses (`@college.edu`), while allowing authorized administrators to unlock personal email registration via an encrypted Admin Passcode check.
 - **Role-Based Access Control (RBAC):**
   - **Guests:** Browse live lost/found items and view public details.
   - **Registered Users:** File lost/found reports with photo uploads, track personal submissions, and mark own items as claimed.
@@ -45,7 +45,7 @@ reclaimx/
 1. **Clone the repository** into your XAMPP `htdocs` folder:
    ```bash
    cd C:\xampp\htdocs
-   git clone <your-repo-url> reclaimx
+   git clone <https://github.com/pandarabinarayan313-debug/ReclaimX> reclaimx
    ```
 2. **Start Services:** Open the **XAMPP Control Panel** and start **Apache** and **MySQL**.
 3. **Import the Database:**
@@ -61,7 +61,7 @@ reclaimx/
 
    $smtpUser      = "your-sender-email@gmail.com";
    $smtpPass      = "your-16-char-app-password";
-   $allowedDomain = "@hitam.org";
+   $allowedDomain = "@college.edu";
    $adminPasscode = "your-secret-admin-code";
    ```
 5. **Launch the App:** Visit `http://localhost/reclaimx/` in your browser.
